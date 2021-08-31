@@ -24,9 +24,9 @@
           </li>
         </ul>
         <p>
-          <a v-if="profile.id === currentUser.id" href="/users/1/edit">
+          <router-link v-if="profile.id === currentUser.id" :to="{ name: 'user-edit', params: { id: profile.id } }">
             <button type="submit" class="btn btn-primary">Edit</button>
-          </a>
+          </router-link>
           <span v-else>
             <button v-if="profile.isFollowed" type="submit" class="btn btn-primary" @click.stop.prevent="deleteFollow">取消追蹤</button>
             <button v-else type="submit" class="btn btn-primary" @click.stop.prevent="addFollow">追蹤</button>
@@ -51,22 +51,22 @@ export default {
   },
   data() {
     return {
-      profile: this.initialProfile
+      profile: this.initialProfile,
     }
   },
   methods: {
     addFollow() {
       this.profile = {
         ...this.profile,
-        isFollowed: true
+        isFollowed: true,
       }
     },
     deleteFollow() {
       this.profile = {
         ...this.profile,
-        isFollowed: false
+        isFollowed: false,
       }
-    }
-  }
+    },
+  },
 }
 </script>
