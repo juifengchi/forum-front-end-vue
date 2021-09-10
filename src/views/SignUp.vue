@@ -27,8 +27,8 @@
         <input id="password-check" v-model="passwordCheck" name="passwordCheck" type="password" class="form-control" placeholder="Password" autocomplete="new-password" required />
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">
-        Submit
+      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" :disabled="isProcessing">
+        {{ isProcessing ? 'Processing...' : 'Submit' }}
       </button>
 
       <div class="text-center mb-3">
@@ -47,25 +47,78 @@
 </template>
 
 <script>
+import authorizationAPI from './../apis/authorization'
+import { Toast } from './../utils/helpers'
+
 export default {
   data() {
     return {
       name: '',
       email: '',
       password: '',
-      passwordCheck: ''
+      passwordCheck: '',
+      isProcessing: false,
     }
   },
   methods: {
-    handleSubmit() {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck
-      })
-      console.log('data', data)
-    }
-  }
+    async handleSubmit() {
+      try {
+        if (!this.name) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入名稱',
+          })
+          return
+        } else if (!this.email) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入信箱',
+          })
+          return
+        } else if (!this.password) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入密碼',
+          })
+          return
+        } else if (!this.passwordCheck) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入密碼確認',
+          })
+          return
+        } else if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: 'warning',
+            title: '密碼前後不一致',
+          })
+          return
+        }
+
+        this.isProcessing = true
+
+        const formData = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordCheck: this.passwordCheck,
+        }
+
+        const { data } = await authorizationAPI.signUp(formData)
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.$router.push({ name: 'sign-in', params: { register: 'success' } })
+      } catch (error) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'warning',
+          title: '無法註冊，請稍候再試',
+        })
+      }
+    },
+  },
 }
 </script>
