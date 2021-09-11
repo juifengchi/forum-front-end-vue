@@ -14,31 +14,41 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid"
+import { Toast } from './../utils/helpers'
 
 export default {
-  data () {
+  data() {
     return {
-      text: ''
+      text: '',
     }
   },
   props: {
     restaurantId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    handleSubmit () {
-      // TODO: 向 API 發送 POST 請求
-      // 伺服器新增 Comment 成功後...
+    handleSubmit() {
+      if (!this.text) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請輸入評論',
+        })
+        return
+      }
       this.$emit('after-create-comment', {
-        commentId: uuidv4(), // 尚未串接 API 暫時使用隨機的 id
         restaurantId: this.restaurantId,
-        text: this.text
+        text: this.text,
       })
-      this.text = '' // 將表單內的資料清空
-    }
-  }
+      this.text = ''
+    },
+  },
 }
 </script>
+
+<style scoped>
+.form-group {
+  margin: 21px 0 8px;
+}
+</style>
