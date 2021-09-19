@@ -60,15 +60,6 @@ export default {
     this.fetchRestaurant(restaurantId)
     next()
   },
-  // watch: {
-  //   restaurantComments: {
-  //     handler: function() {
-  //       const { id: restaurantId } = this.$route.params
-  //       this.fetchRestaurant(restaurantId)
-  //     },
-  //     deep: true
-  //   }
-  // },
   methods: {
     async fetchRestaurant(restaurantId) {
       try {
