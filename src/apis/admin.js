@@ -4,6 +4,9 @@ export default {
   categories: {
     get () {
       return apiHelper.get('/admin/categories')
+    },
+    create ({ name }) {
+      return apiHelper.post('/admin/categories', { name })
     }
   },
   restaurants: {
