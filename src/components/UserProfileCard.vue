@@ -1,7 +1,7 @@
 <template>
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img :src="profile.image" width="300px" height="300px" />
+      <img :src="profile.image | emptyImage" width="300px" height="300px" />
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -28,8 +28,8 @@
             <button type="submit" class="btn btn-primary">Edit</button>
           </router-link>
           <span v-else>
-            <button v-if="profile.isFollowed" type="submit" class="btn btn-primary" @click.stop.prevent="deleteFollow">取消追蹤</button>
-            <button v-else type="submit" class="btn btn-primary" @click.stop.prevent="addFollow">追蹤</button>
+            <button v-if="isFollowed" type="submit" class="btn btn-primary" @click.stop.prevent="deleteFollowing(profile.id)">取消追蹤</button>
+            <button v-else type="submit" class="btn btn-primary" @click.stop.prevent="addFollowing(profile.id)">追蹤</button>
           </span>
         </p>
       </div>
@@ -38,9 +38,14 @@
 </template>
 
 <script>
+import userAPI from './../apis/users'
+import { emptyImageFilter } from './../utils/mixins'
+import { Toast } from './../utils/helpers'
+
 export default {
+  mixins: [emptyImageFilter],
   props: {
-    initialProfile: {
+    profile: {
       type: Object,
       required: true,
     },
@@ -48,23 +53,38 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      profile: this.initialProfile,
+    isFollowed: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
-    addFollow() {
-      this.profile = {
-        ...this.profile,
-        isFollowed: true,
+    async addFollowing(userId) {
+      try {
+        const { data } = await userAPI.addFollowing({ userId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.$emit('after-add-following')
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入追蹤，請稍後再試',
+        })
       }
     },
-    deleteFollow() {
-      this.profile = {
-        ...this.profile,
-        isFollowed: false,
+    async deleteFollowing(userId) {
+      try {
+        const { data } = await userAPI.deleteFollowing({ userId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.$emit('after-delete-following')
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消追蹤，請稍後再試',
+        })
       }
     },
   },

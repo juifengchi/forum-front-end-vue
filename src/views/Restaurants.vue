@@ -70,7 +70,7 @@ export default {
         })
 
         const { restaurants, categories, categoryId, page, totalPage, prev, next } = response.data
-        console.log(response.data)
+
         this.restaurants = restaurants
         this.categories = categories
         this.categoryId = categoryId
