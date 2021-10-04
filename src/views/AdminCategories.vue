@@ -14,7 +14,8 @@
         </div>
       </div>
     </form>
-    <table class="table">
+    <Spinner v-if="isLoading" />
+    <table v-else class="table">
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="60">
@@ -46,7 +47,7 @@
             <button v-show="!category.isEditing" type="button" class="btn btn-link mr-2" @click.stop.prevent="toggleIsEditing(category.id)">
               Edit
             </button>
-            <button v-show="category.isEditing" type="button" class="btn btn-link mr-2" @click.stop.prevent="updateCategory({ categoryId: category.id, name: category.name })">
+            <button v-show="category.isEditing" type="button" class="btn btn-link mr-2" @click.stop.prevent="updateCategory({ categoryId: category.id, name: category.name })" :disabled="isProcessing">
               Save
             </button>
             <button type="button" class="btn btn-link mr-2" @click.stop.prevent="deleteCategory(category.id)">
@@ -62,11 +63,13 @@
 <script>
 import AdminNav from '@/components/AdminNav'
 import adminAPI from './../apis/admin'
+import Spinner from './../components/Spinner'
 import { Toast } from './../utils/helpers'
 
 export default {
   components: {
     AdminNav,
+    Spinner
   },
   data() {
     return {
@@ -159,9 +162,22 @@ export default {
         return category
       })
     },
-    updateCategory({ categoryId, name }) {
-      // TODO: 透過 API 去向伺服器更新餐廳類別名稱
-      this.toggleIsEditing(categoryId)
+    async updateCategory({ categoryId, name }) {
+      try {
+        this.isProcessing = true
+        const { data } = await adminAPI.categories.update({ categoryId, name })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.toggleIsEditing(categoryId)
+        this.isProcessing = false
+      } catch (error) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: '無法更改餐廳類別，請稍後再試',
+        })
+      }
     },
     handleCancel(categoryId) {
       this.categories = this.categories.map(category => {

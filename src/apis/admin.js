@@ -10,6 +10,9 @@ export default {
     },
     delete ({ categoryId }) {
       return apiHelper.delete(`/admin/categories/${categoryId}`)
+    },
+    update ({ categoryId, name }) {
+      return apiHelper.put(`/admin/categories/${categoryId}`, { name })
     }
   },
   restaurants: {
