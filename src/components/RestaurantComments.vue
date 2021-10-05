@@ -29,6 +29,7 @@ import { fromNowFilter } from './../utils/mixins'
 import { mapState } from 'vuex'
 
 export default {
+  name: 'RestaurantComments',
   mixins: [fromNowFilter],
   props: {
     restaurantComments: {

@@ -36,6 +36,7 @@ import { Toast } from './../utils/helpers'
 import Spinner from './../components/Spinner'
 
 export default {
+  name: 'UsersTop',
   mixins: [emptyImageFilter],
   components: {
     NavTabs,

@@ -39,6 +39,7 @@ import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
 
 export default {
+  name: 'User',
   components: {
     UserProfileCard,
     UserFollowingsCard,

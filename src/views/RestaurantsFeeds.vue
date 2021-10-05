@@ -32,6 +32,7 @@ import { Toast } from './../utils/helpers'
 import Spinner from './../components/Spinner.vue'
 
 export default {
+  name: 'RestaurantsFeeds',
   components: {
     NavTabs,
     NewestRestaurants,

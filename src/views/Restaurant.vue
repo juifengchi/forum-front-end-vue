@@ -24,6 +24,7 @@ import commentsAPI from './../apis/comments'
 import Spinner from './../components/Spinner.vue'
 
 export default {
+  name: 'Restaurant',
   components: {
     RestaurantDetail,
     RestaurantComments,

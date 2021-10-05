@@ -10,6 +10,7 @@ import adminAPI from './../apis/admin'
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'AdminRestaurantEdit',
   components: {
     AdminRestaurantForm,
   },

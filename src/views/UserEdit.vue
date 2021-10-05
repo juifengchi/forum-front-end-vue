@@ -25,6 +25,7 @@ import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'UserEdit',
   data() {
     return {
       profile: {

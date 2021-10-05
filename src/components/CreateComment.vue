@@ -17,6 +17,7 @@
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'CreateComment',
   data() {
     return {
       text: '',

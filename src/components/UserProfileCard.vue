@@ -43,6 +43,7 @@ import { emptyImageFilter } from './../utils/mixins'
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'UserProfileCard',
   mixins: [emptyImageFilter],
   props: {
     profile: {

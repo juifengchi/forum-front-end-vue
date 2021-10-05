@@ -13,6 +13,7 @@
 import { emptyImageFilter } from './../utils/mixins'
 
 export default {
+  name: 'UserFavoritedRestaurantsCard',
   mixins: [emptyImageFilter],
   props: {
     favoritedRestaurants: {

@@ -26,6 +26,7 @@
 import { fromNowFilter } from './../utils/mixins'
 
 export default {
+  name: 'NewestComments',
   mixins: [fromNowFilter],
   props: {
     comments: {

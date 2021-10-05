@@ -53,6 +53,7 @@ import usersAPI from './../apis/users'
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'RestaurantDetail',
   mixins: [emptyImageFilter],
   props: {
     initialRestaurant: {

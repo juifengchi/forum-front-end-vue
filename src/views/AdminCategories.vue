@@ -67,6 +67,7 @@ import Spinner from './../components/Spinner'
 import { Toast } from './../utils/helpers'
 
 export default {
+  name: 'AdminCategories',
   components: {
     AdminNav,
     Spinner
