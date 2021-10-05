@@ -27,5 +27,8 @@ export default {
   },
   getTopUsers () {
     return apiHelper.get('/users/top')
+  },
+  update ({ userId, formData }) {
+    return apiHelper.put(`/users/${userId}`, formData)
   }
 }
